@@ -6,7 +6,7 @@ import com.example.tomatomall.vo.ProductVO;
 import java.util.List;
 
 public interface ProductService {
-    Product createProduct(ProductVO product);
+    ProductVO createProduct(ProductVO product);
     ProductVO getProductById(Integer id);
     List<ProductVO> getAllProducts();
     String updateProduct(ProductVO updatedProduct);

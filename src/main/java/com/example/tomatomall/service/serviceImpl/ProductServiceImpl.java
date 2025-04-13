@@ -22,9 +22,10 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
 
     @Override
-    public Product createProduct(ProductVO productVO) {
+    public ProductVO createProduct(ProductVO productVO) {
         Product product = productVO.toPO();
-        return productRepository.save(product);
+        productRepository.save(product);
+        return productVO;
     }
 
     @Override
