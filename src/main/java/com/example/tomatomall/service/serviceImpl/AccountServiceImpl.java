@@ -36,7 +36,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
 
-    public Boolean createUser(AccountVO accountVO){
+    public String createUser(AccountVO accountVO){
         Account account = accountRepository.findByName(accountVO.getName());
         if (account != null) {
             throw TomatoMallException.UsernameAlreadyExists();
@@ -48,11 +48,11 @@ public class AccountServiceImpl implements AccountService {
         Account newUser = accountVO.toPO();
 
         accountRepository.save(newUser);
-        return true;
+        return "注册成功";
     }
 
 
-    public Boolean updateUser(AccountVO user){
+    public String updateUser(AccountVO user){
         Account account = securityUtil.getCurrentUser();
 
         if(user.getUsername() != null){
@@ -89,7 +89,7 @@ public class AccountServiceImpl implements AccountService {
         }
 
         accountRepository.save(account);
-        return true;
+        return "更新成功";
     }
 
 

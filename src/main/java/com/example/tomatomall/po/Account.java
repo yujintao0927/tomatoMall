@@ -52,7 +52,7 @@ public class Account {
 
     public AccountVO toVO() {
         AccountVO vo = new AccountVO();
-        vo.setId(id);
+//        vo.setId(id);
         vo.setUsername(userName);
         vo.setName(name);
         vo.setAvatar(avatar);

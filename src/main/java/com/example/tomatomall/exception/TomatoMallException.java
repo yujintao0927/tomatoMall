@@ -26,4 +26,10 @@ public class TomatoMallException extends RuntimeException {
   public static TomatoMallException loginFailed() {
     return new TomatoMallException("用户不存在/用户密码错误", "400");
   }
+
+  public static TomatoMallException productNotFound() {
+    return new TomatoMallException("商品不存在", "400");
+  }
+
+
 }

@@ -1,5 +1,6 @@
 package com.example.tomatomall.po;
 
+import com.example.tomatomall.vo.ProductVO;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import javax.persistence.*;
@@ -24,4 +25,13 @@ public class Stockpile {
     @JoinColumn(name = "product_id", nullable = false, unique = true)
     @JsonBackReference // ✅ 解决无限递归
     private Product product;
+
+    public ProductVO.StockpileVO toStockpileVO() {
+        ProductVO.StockpileVO vo = new ProductVO.StockpileVO();
+        vo.setId(id);
+        vo.setAmount(amount);
+        vo.setFrozen(frozen);
+        vo.setProductId(product.getId());
+        return vo;
+    }
 }

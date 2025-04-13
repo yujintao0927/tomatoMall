@@ -27,17 +27,17 @@ public class AccountController {
      * 创建新的用户
      */
     @PostMapping()
-    public Response<Boolean> createUser(@RequestBody AccountVO accountVO) {
-        accountVO.print();
-        System.out.println("123");
+    public Response<String> createUser(@RequestBody AccountVO accountVO) {
+//        accountVO.print();
+//        System.out.println("123");
         return Response.buildSuccess(accountService.createUser(accountVO));
     }
 
     /**
      * 更新用户信息
      */
-    @PutMapping("/update")
-    public Response<Boolean> updateUser(@RequestBody AccountVO accountVO) {
+    @PutMapping()
+    public Response<String> updateUser(@RequestBody AccountVO accountVO) {
         return Response.buildSuccess(accountService.updateUser(accountVO));
     }
 

@@ -6,8 +6,8 @@ import com.example.tomatomall.vo.AccountVO;
 public interface AccountService {
 
     public AccountVO getUser(String username);
-    public Boolean createUser(AccountVO user);
-    public Boolean updateUser(AccountVO user);
+    public String createUser(AccountVO user);
+    public String updateUser(AccountVO user);
     public String login(String phone, String password);
 
 

@@ -1,5 +1,6 @@
 package com.example.tomatomall.po;
 
+import com.example.tomatomall.vo.ProductVO;
 import lombok.Data;
 import javax.persistence.*;
 
@@ -22,4 +23,13 @@ public class Specifications {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
+
+    public ProductVO.SpecificationVO toVO(){
+        ProductVO.SpecificationVO specificationVO = new ProductVO.SpecificationVO();
+        specificationVO.setId(id);
+        specificationVO.setItem(item);
+        specificationVO.setValue(value);
+        specificationVO.setProductId(product.getId());
+        return specificationVO;
+    }
 }

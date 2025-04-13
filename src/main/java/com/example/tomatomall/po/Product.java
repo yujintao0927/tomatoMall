@@ -1,12 +1,14 @@
 package com.example.tomatomall.po;
 
 import com.example.tomatomall.po.Stockpile;
+import com.example.tomatomall.vo.ProductVO;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -45,6 +47,30 @@ public class Product {
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference // ✅ 解决无限递归
     private Stockpile stockpile;
+
+
+    /**
+     *
+     * @return 返回值中的vo不包括库存表
+     */
+    public ProductVO toVO() {
+        ProductVO productVO = new ProductVO();
+        productVO.setId(id);
+        productVO.setTitle(title);
+        productVO.setPrice(price);
+        productVO.setRate(rate);
+        productVO.setDescription(description);
+        productVO.setCover(cover);
+        productVO.setDetail(detail);
+
+        List<ProductVO.SpecificationVO> specificationVOs = new ArrayList<>();
+        for (Specifications specification : specifications) {
+            specificationVOs.add(specification.toVO());
+        }
+        productVO.setSpecifications(specificationVOs);
+//        productVO.setStockpile(stockpile.toStockpileVO());
+        return productVO;
+    }
 
     // 辅助方法：添加规格
     public void addSpecification(Specifications specification) {
