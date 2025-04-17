@@ -30,8 +30,8 @@ public class ProductController {
 
     // 添加商品
     @PostMapping
-    public Response<Product> createProduct(@RequestBody ProductVO product) {
-        return Response.buildSuccess(productService.createProduct(product));
+    public Response<ProductVO> createProduct(@RequestBody ProductVO productVO) {
+        return Response.buildSuccess(productService.createProduct(productVO));
     }
 
     // 更新商品
