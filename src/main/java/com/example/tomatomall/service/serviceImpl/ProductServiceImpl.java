@@ -147,6 +147,7 @@ public class ProductServiceImpl implements ProductService {
     public void adjustStockPile(Integer id, Integer amount) {
         Product product = productRepository.findById(id).orElseThrow(TomatoMallException::productNotFound);
         product.getStockpile().setAmount(amount);
+        productRepository.save(product);
     }
 
     @Override
