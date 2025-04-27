@@ -31,5 +31,15 @@ public class TomatoMallException extends RuntimeException {
     return new TomatoMallException("商品不存在", "400");
   }
 
+  public static TomatoMallException insufficientStock(){
+    return new TomatoMallException("商品库存不足", "409");
+  }
 
+  public static TomatoMallException cartItemNotFound(){
+    return new TomatoMallException("购物车商品不存在", "400");
+  }
+
+  public static TomatoMallException orderNotFound(){
+    return new TomatoMallException("找不到订单", "404");
+  }
 }

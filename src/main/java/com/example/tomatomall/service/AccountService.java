@@ -5,10 +5,10 @@ import com.example.tomatomall.vo.AccountVO;
 
 public interface AccountService {
 
-    public AccountVO getUser(String username);
-    public String createUser(AccountVO user);
-    public String updateUser(AccountVO user);
-    public String login(String phone, String password);
+    AccountVO getUser(String username);
+    String createUser(AccountVO user);
+    String updateUser(AccountVO user);
+    String login(String phone, String password);
 
 
 }

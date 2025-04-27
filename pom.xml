@@ -97,6 +97,12 @@
 <!--        </dependency>-->
 
 
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>4.31.56.ALL</version>
+        </dependency>
+
 
     </dependencies>
     <dependencyManagement>
