@@ -25,7 +25,7 @@ public class Orders {
 //    private Integer userId;
 
     // 多对一关联对象（JPA 关系映射）
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "id",
             insertable = false, updatable = false)
     private Account user;

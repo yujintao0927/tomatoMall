@@ -32,7 +32,7 @@ public class CartController {
     }
 
     @PatchMapping("/{cartItemId}")
-    public Response<String> changeQuantity(@PathVariable Integer cartItemId, @RequestParam CartVO cartVO) {
+    public Response<String> changeQuantity(@PathVariable Integer cartItemId, @RequestBody CartVO cartVO) {
         Integer quantity = cartVO.getQuantity();
         cartService.changeQuantity(cartItemId, quantity);
         return Response.buildSuccess("修改数量成功");

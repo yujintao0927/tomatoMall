@@ -20,11 +20,11 @@ public class Cart {
     @Column(name = "cart_item_id")
     private int cartItemId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "user_id")
     private Account account;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "product_id")
     private Product product;
 

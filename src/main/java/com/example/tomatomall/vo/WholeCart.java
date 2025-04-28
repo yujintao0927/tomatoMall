@@ -14,7 +14,7 @@ import java.util.List;
 public class WholeCart {
     private List<Cart> carts;
     private Integer total;
-    private BigDecimal totalAmount;
+    private BigDecimal totalAmount = new BigDecimal(0);
 
 
     public void setTotalAmount(){
@@ -22,7 +22,9 @@ public class WholeCart {
             return;
         }
         for (Cart cart : carts){
-            totalAmount = totalAmount.add(cart.getProduct().getPrice());
+            for (int i = 0; i < cart.getQuantity(); i++) {
+                totalAmount = totalAmount.add(cart.getProduct().getPrice());
+            }
         }
     }
 
