@@ -47,9 +47,9 @@ public class CartServiceImpl implements CartService {
         cart.setProduct(product);
         cart.setQuantity(quantity);
         cart.setAccount(account);
-        cartRepository.save(cart);
+        Cart retCart = cartRepository.save(cart);
 
-        return cart.toVO();
+        return retCart.toVO();
     }
 
     public void deleteFromCart(Integer cartItemId){
