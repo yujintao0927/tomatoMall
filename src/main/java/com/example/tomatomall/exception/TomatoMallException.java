@@ -42,4 +42,9 @@ public class TomatoMallException extends RuntimeException {
   public static TomatoMallException orderNotFound(){
     return new TomatoMallException("找不到订单", "404");
   }
-}
+
+  public static TomatoMallException advertisementsNotFound(){
+    return new TomatoMallException("广告不存在", "400");
+  }
+
+  }

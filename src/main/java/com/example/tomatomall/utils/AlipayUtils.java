@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.alipay.api.AlipayConstants.FORMAT;
 
@@ -46,6 +47,9 @@ public class AlipayUtils {
     public PayResponse pay(Integer orderId){
         Orders orders = ordersRepository.findById(orderId).orElseThrow(TomatoMallException::orderNotFound);
 
+        if(!Objects.equals(orders.getStatus(), "PENDING")){
+            return null;
+        }
 
         Long currentTime = System.currentTimeMillis();
 

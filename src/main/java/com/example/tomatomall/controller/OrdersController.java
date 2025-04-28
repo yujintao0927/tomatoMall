@@ -5,10 +5,7 @@ import com.example.tomatomall.utils.AlipayUtils;
 import com.example.tomatomall.vo.PayResponse;
 import com.example.tomatomall.vo.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,6 +31,11 @@ public class OrdersController {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @GetMapping("/returnUrl")
+    public String returnUrl() {
+        return "支付成功了";
     }
 
 //    @PostMapping("/notify")
