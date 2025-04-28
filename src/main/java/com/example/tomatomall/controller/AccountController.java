@@ -45,7 +45,9 @@ public class AccountController {
      * 登录
      */
     @PostMapping("/login")
-    public Response<String> login(@RequestParam String username, @RequestParam String password) {
+    public Response<String> login(@RequestBody AccountVO accountVO) {
+        String username = accountVO.getUsername();
+        String password = accountVO.getPassword();
         return Response.buildSuccess(accountService.login(username, password));
     }
 }

@@ -64,10 +64,12 @@ public class Product {
         productVO.setDetail(detail);
 
         List<ProductVO.SpecificationVO> specificationVOs = new ArrayList<>();
-        for (Specifications specification : specifications) {
-            specificationVOs.add(specification.toVO());
+        if(specifications != null) {
+            for (Specifications specification : specifications) {
+                specificationVOs.add(specification.toVO());
+            }
+            productVO.setSpecifications(specificationVOs);
         }
-        productVO.setSpecifications(specificationVOs);
 //        productVO.setStockpile(stockpile.toStockpileVO());
         return productVO;
     }

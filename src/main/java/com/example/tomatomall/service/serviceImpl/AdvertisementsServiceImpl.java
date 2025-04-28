@@ -30,7 +30,12 @@ public class AdvertisementsServiceImpl implements AdvertisementsService {
         for (Advertisements advertisements : advertisementsVOList) {
             retVOs.add(advertisements.toVO());
         }
-        return retVOs;
+
+        List<AdvertisementsVO> reverseRetVOs = new ArrayList<>(retVOs.size());
+        for (int i = retVOs.size() - 1; i >= 0; i--) {
+            reverseRetVOs.add(retVOs.get(i));
+        }
+        return reverseRetVOs;
     }
     public void updateAdvertisements(Integer id,
                                      String title,
@@ -59,11 +64,11 @@ public class AdvertisementsServiceImpl implements AdvertisementsService {
         advertisementsRepository.save(advertisements);
     }
     public AdvertisementsVO createAdvertisements(AdvertisementsVO advertisements){
-        Product product = productRepository.findById(advertisements.getProduct_id()).orElseThrow(TomatoMallException::productNotFound);
+        Product product = productRepository.findById(advertisements.getProductId()).orElseThrow(TomatoMallException::productNotFound);
 
         Advertisements advertisementsPO = advertisements.toPO(product);
-        advertisementsRepository.save(advertisementsPO);
-        return advertisements;
+        Advertisements retAdvertisements = advertisementsRepository.save(advertisementsPO);
+        return retAdvertisements.toVO();
     }
     public void deleteAdvertisements(Integer id){
         Advertisements advertisements = advertisementsRepository.findById(id).orElseThrow(TomatoMallException::advertisementsNotFound);

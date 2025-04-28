@@ -25,11 +25,12 @@ public class AdvertisementsController {
 
     @PutMapping
     public Response<String> updateAdvertisements(
-            @RequestParam(name = "id") Integer id,
-            @RequestParam(name = "title", required = false) String title,
-            @RequestParam(name = "content", required = false) String content,
-            @RequestParam(name = "imgUrl", required = false) String imgUrl,
-            @RequestParam(name = "productId") Integer productId) {
+            @RequestBody AdvertisementsVO advertisementsVO) {
+        Integer id = advertisementsVO.getId();
+        String title = advertisementsVO.getTitle();
+        String content = advertisementsVO.getContent();
+        String imgUrl = advertisementsVO.getImgUrl();
+        Integer productId = advertisementsVO.getProductId();
         advertisementsService.updateAdvertisements(id, title, content, imgUrl, productId);
         return Response.buildSuccess("更新成功");
     }

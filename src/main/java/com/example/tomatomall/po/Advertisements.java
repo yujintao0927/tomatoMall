@@ -36,8 +36,8 @@ import javax.persistence.*;
         vo.setId(id);
         vo.setTitle(title);
         vo.setContent(content);
-        vo.setProduct_id(product.getId());
-        vo.setImage_url(imageUrl);
+        vo.setProductId(product.getId());
+        vo.setImgUrl(imageUrl);
         return vo;
     }
 }

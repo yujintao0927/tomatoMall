@@ -1,9 +1,11 @@
 package com.example.tomatomall.service.serviceImpl;
 
 import com.example.tomatomall.Repository.ProductRepository;
+import com.example.tomatomall.Repository.StockpileRepository;
 import com.example.tomatomall.exception.TomatoMallException;
 import com.example.tomatomall.po.Product;
 import com.example.tomatomall.po.Specifications;
+import com.example.tomatomall.po.Stockpile;
 import com.example.tomatomall.service.ProductService;
 import com.example.tomatomall.vo.ProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +26,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductVO createProduct(ProductVO productVO) {
         Product product = productVO.toPO();
-        productRepository.save(product);
-        return productVO;
+        Product retProduct = productRepository.save(product);
+        return retProduct.toVO();
     }
 
     @Override
@@ -146,6 +148,17 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void adjustStockPile(Integer id, Integer amount) {
         Product product = productRepository.findById(id).orElseThrow(TomatoMallException::productNotFound);
+        Stockpile stockpile = product.getStockpile();
+        if(stockpile == null) {
+            Stockpile newStockpile = new Stockpile();
+            newStockpile.setProduct(product);
+            newStockpile.setAmount(amount);
+            newStockpile.setFrozen(0);
+//            stockpileRepository.save(newStockpile);
+            product.setStockpile(newStockpile);
+            productRepository.save(product);
+            return;
+        }
         product.getStockpile().setAmount(amount);
         productRepository.save(product);
     }
@@ -154,6 +167,9 @@ public class ProductServiceImpl implements ProductService {
     public ProductVO.StockpileVO getStockPile(Integer productID){
         Product product = productRepository.findById(productID).orElseThrow(TomatoMallException::productNotFound);
 
+        if(product.getStockpile() == null) {
+            return null;
+        }
         return product.getStockpile().toStockpileVO();
     }
 

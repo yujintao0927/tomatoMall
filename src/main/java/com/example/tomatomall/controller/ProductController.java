@@ -49,7 +49,8 @@ public class ProductController {
 
     //调整库存
     @PatchMapping("/stockpile/{productId}")
-    public Response<String> adjustStockPile(@PathVariable Integer productId, @RequestParam Integer amount) {
+    public Response<String> adjustStockPile(@PathVariable Integer productId, @RequestBody ProductVO.StockpileVO stockpileVO) {
+        int amount = stockpileVO.getAmount();
         productService.adjustStockPile(productId, amount);
         return Response.buildSuccess("调整库存成功");
     }
