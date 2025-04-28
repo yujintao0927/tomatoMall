@@ -18,7 +18,7 @@ public class OrdersController {
 
     @Autowired
     private AlipayUtils alipayUtils;
-    private String ALIPAY_PUBLIC_KEY = alipayUtils.getPublicKey();
+//    private String ALIPAY_PUBLIC_KEY = alipayUtils.getPublicKey();
 
 
     @PostMapping("/{orderId}/pay")

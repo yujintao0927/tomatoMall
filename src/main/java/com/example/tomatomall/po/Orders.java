@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "orderId")
+    @Column(name = "order_id")
     private Integer orderId;
 
 //    // 外键列（直接映射到数据库字段）
@@ -26,7 +26,7 @@ public class Orders {
 
     // 多对一关联对象（JPA 关系映射）
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId", referencedColumnName = "id",
+    @JoinColumn(name = "user_id", referencedColumnName = "id",
             insertable = false, updatable = false)
     private Account user;
 

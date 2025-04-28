@@ -1,9 +1,6 @@
 package com.example.tomatomall.service.serviceImpl;
 
-import com.example.tomatomall.Repository.CartRepository;
-import com.example.tomatomall.Repository.OrdersRepository;
-import com.example.tomatomall.Repository.ProductRepository;
-import com.example.tomatomall.Repository.StockpileRepository;
+import com.example.tomatomall.Repository.*;
 import com.example.tomatomall.exception.TomatoMallException;
 import com.example.tomatomall.po.*;
 import com.example.tomatomall.service.CartService;
@@ -35,6 +32,9 @@ public class CartServiceImpl implements CartService {
 
     @Autowired
     private StockpileRepository stockpileRepository;
+
+    @Autowired
+    private CartsOrdersRelationRepository cartsOrdersRelationRepository;
 
     public CartVO addToCart(Integer productId, Integer quantity){
         Product product = productRepository.findById(productId).orElseThrow(TomatoMallException::productNotFound);
@@ -83,6 +83,10 @@ public class CartServiceImpl implements CartService {
 
         BigDecimal totalAmount = new BigDecimal(0);
 
+        Orders orders = new Orders();
+
+        List<CartsOrdersRelation> cartsOrdersRelations = new ArrayList<>();
+
 //        List<Cart> cartsOfThisAccount = new ArrayList<>();
         for(Integer itemId : cartItemId){
             Cart cart = cartRepository.findById(itemId).orElseThrow(TomatoMallException::cartItemNotFound);
@@ -100,16 +104,23 @@ public class CartServiceImpl implements CartService {
             stockpile.setAmount(stockpile.getAmount() - cart.getQuantity());
             stockpile.setFrozen(stockpile.getFrozen() + cart.getQuantity());
             stockpileRepository.save(stockpile);
-            totalAmount = totalAmount.add(item.getPrice().multiply(new BigDecimal(cart.getQuantity()))) ;
+            totalAmount = totalAmount.add(item.getPrice().multiply(new BigDecimal(cart.getQuantity())));
+
+            CartsOrdersRelation cartsOrdersRelation = new CartsOrdersRelation();
+            cartsOrdersRelation.setCartItem(cart);
+            cartsOrdersRelation.setOrders(orders);
+            cartsOrdersRelations.add(cartsOrdersRelation);
         }
 
-        Orders orders = new Orders();
+//        Orders orders = new Orders();
         orders.setTotalAmount(totalAmount);
         orders.setUser(currentUser);
         orders.setPaymentMethod(paymentMethod);
         orders.setStatus("PENDING");
         orders.setCreateTime(new Timestamp(System.currentTimeMillis()).toLocalDateTime());
         ordersRepository.save(orders);
+
+        cartsOrdersRelationRepository.saveAll(cartsOrdersRelations);
 
         return orders.toVO();
     }
