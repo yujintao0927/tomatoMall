@@ -98,7 +98,7 @@ public class CartServiceImpl implements CartService {
             }
 
             Stockpile stockpile = item.getStockpile();
-            if(stockpile.getAmount() >= cart.getQuantity()){
+            if(stockpile.getAmount() < cart.getQuantity()){
                 throw TomatoMallException.insufficientStock();
             }
             stockpile.setAmount(stockpile.getAmount() - cart.getQuantity());
@@ -115,6 +115,7 @@ public class CartServiceImpl implements CartService {
 //        Orders orders = new Orders();
         orders.setTotalAmount(totalAmount);
         orders.setUser(currentUser);
+        orders.setUserId(currentUser.getId());
         orders.setPaymentMethod(paymentMethod);
         orders.setStatus("PENDING");
         orders.setCreateTime(new Timestamp(System.currentTimeMillis()).toLocalDateTime());

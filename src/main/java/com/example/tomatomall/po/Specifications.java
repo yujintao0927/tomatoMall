@@ -1,6 +1,7 @@
 package com.example.tomatomall.po;
 
 import com.example.tomatomall.vo.ProductVO;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import javax.persistence.*;
 
@@ -22,6 +23,7 @@ public class Specifications {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
+    @JsonBackReference
     private Product product;
 
     public ProductVO.SpecificationVO toVO(){

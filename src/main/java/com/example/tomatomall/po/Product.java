@@ -2,8 +2,10 @@ package com.example.tomatomall.po;
 
 import com.example.tomatomall.po.Stockpile;
 import com.example.tomatomall.vo.ProductVO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.*;
@@ -14,6 +16,8 @@ import java.util.List;
 @Entity
 @Table(name = "products")
 @Data
+@ToString(exclude = {"stockpile", "specifications"})
+
 public class Product {
 
     @Id
@@ -41,11 +45,14 @@ public class Product {
 
     // 一对多关联规格表
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    @JsonIgnore
     private List<Specifications> specifications;
 
     // 一对一关联库存表
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference // ✅ 解决无限递归
+    @JsonManagedReference
+    @JsonIgnore
     private Stockpile stockpile;
 
 

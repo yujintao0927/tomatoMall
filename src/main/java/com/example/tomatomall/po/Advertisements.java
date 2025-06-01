@@ -24,20 +24,22 @@ import javax.persistence.*;
     @Column(nullable = false, length = 500, name = "content")
     private String content;
 
-    @Column(name = "image_url", nullable = false, length = 500)
+    @Column(name = "image_url", length = 500)
     private String imageUrl;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    // 外键字段
+    @Column(name = "product_id")
+    private Integer productId;
+
+
 
     public AdvertisementsVO toVO(){
         AdvertisementsVO vo = new AdvertisementsVO();
         vo.setId(id);
         vo.setTitle(title);
         vo.setContent(content);
-        vo.setProductId(product.getId());
         vo.setImgUrl(imageUrl);
+        vo.setProductId(productId);
         return vo;
     }
 }

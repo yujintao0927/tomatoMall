@@ -16,13 +16,13 @@ public class AdvertisementsVO {
     private String imgUrl;
     private Integer productId;
 
-    public Advertisements toPO(Product product) {
+    public Advertisements toPO() {
         Advertisements advertisements = new Advertisements();
         advertisements.setId(id);
         advertisements.setTitle(title);
         advertisements.setContent(content);
         advertisements.setImageUrl(imgUrl);
-        advertisements.setProduct(product);
+        advertisements.setProductId(productId);
         return advertisements;
     }
 }

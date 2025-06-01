@@ -2,6 +2,7 @@ package com.example.tomatomall.po;
 
 
 import com.example.tomatomall.vo.CartVO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

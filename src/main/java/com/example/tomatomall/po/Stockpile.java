@@ -2,12 +2,16 @@ package com.example.tomatomall.po;
 
 import com.example.tomatomall.vo.ProductVO;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "stockpiles")
 @Data
+@ToString(exclude = "product")
 public class Stockpile {
 
     @Id

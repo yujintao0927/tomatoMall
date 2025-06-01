@@ -24,11 +24,17 @@ public class Orders {
 //    @Column(name = "userId", nullable = false)
 //    private Integer userId;
 
+    // 外键字段
+    @Column(name = "user_id")
+    private Integer userId;
+
     // 多对一关联对象（JPA 关系映射）
     @ManyToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "id",
             insertable = false, updatable = false)
     private Account user;
+
+
 
     @Column(name = "total_amount", nullable = false, precision = 10, scale = 2)
     private BigDecimal totalAmount;

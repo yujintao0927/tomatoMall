@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/tomatomall?characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=true
     username: root
-    password: 123456
+    password: Yjt050927
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -24,4 +24,9 @@ alipay:
 
 server:
   port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 

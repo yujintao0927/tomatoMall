@@ -59,14 +59,11 @@ public class AdvertisementsServiceImpl implements AdvertisementsService {
             advertisements.setImageUrl(imgUrl);
         }
 
-        Product product = productRepository.findById(productId).orElseThrow(TomatoMallException::productNotFound);
-        advertisements.setProduct(product);
+        advertisements.setProductId(productId);
         advertisementsRepository.save(advertisements);
     }
     public AdvertisementsVO createAdvertisements(AdvertisementsVO advertisements){
-        Product product = productRepository.findById(advertisements.getProductId()).orElseThrow(TomatoMallException::productNotFound);
-
-        Advertisements advertisementsPO = advertisements.toPO(product);
+        Advertisements advertisementsPO = advertisements.toPO();
         Advertisements retAdvertisements = advertisementsRepository.save(advertisementsPO);
         return retAdvertisements.toVO();
     }
