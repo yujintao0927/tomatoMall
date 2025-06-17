@@ -70,7 +70,9 @@ public class Product {
         productVO.setCover(cover);
         productVO.setDetail(detail);
 
-        productVO.setStockpile(stockpile.toStockpileVO());
+        if(stockpile != null) {
+            productVO.setStockpile(stockpile.toStockpileVO());
+        }
         List<ProductVO.SpecificationVO> specificationVOs = new ArrayList<>();
         if(specifications != null) {
             for (Specifications specification : specifications) {
