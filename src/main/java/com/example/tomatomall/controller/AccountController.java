@@ -2,6 +2,7 @@ package com.example.tomatomall.controller;
 
 import com.example.tomatomall.service.AccountService;
 import com.example.tomatomall.vo.AccountVO;
+import com.example.tomatomall.vo.PasswordVO;
 import com.example.tomatomall.vo.Response;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,5 +50,13 @@ public class AccountController {
         String username = accountVO.getUsername();
         String password = accountVO.getPassword();
         return Response.buildSuccess(accountService.login(username, password));
+    }
+
+    @PutMapping("/updatePassword")
+    public Response updatePassword(@RequestBody PasswordVO passwordVO) {
+        String oldPassword = passwordVO.getOldPassword();
+        String newPassword = passwordVO.getNewPassword();
+        accountService.updatePassword(oldPassword, newPassword);
+        return Response.buildSuccess("更新密码成功");
     }
 }

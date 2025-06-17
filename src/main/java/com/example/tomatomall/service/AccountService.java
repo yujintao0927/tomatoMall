@@ -8,7 +8,7 @@ public interface AccountService {
     AccountVO getUser(String username);
     String createUser(AccountVO user);
     String updateUser(AccountVO user);
-    String login(String phone, String password);
-
+    String login(String username, String password);
+    void updatePassword(String oldPassword, String newPassword);
 
 }

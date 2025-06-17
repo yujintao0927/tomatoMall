@@ -16,4 +16,6 @@ public interface ProductService {
     ProductVO.StockpileVO getStockPile(Integer id);
 
     void addStockPile(ProductVO.StockpileVO stockpileVO);
+
+    List<ProductVO> getMyProduct();
 }

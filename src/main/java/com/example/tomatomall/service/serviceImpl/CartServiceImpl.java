@@ -67,8 +67,16 @@ public class CartServiceImpl implements CartService {
     public WholeCart getCartList(){
         Account account = securityUtil.getCurrentUser();
         List<Cart> cartsOfThisAccount = cartRepository.findByAccount(account);
+
+        List<Cart> result = new ArrayList<>();
+
+        for (Cart cart : cartsOfThisAccount){
+            if(!cartsOrdersRelationRepository.existsByCartItem(cart)){
+                result.add(cart);
+            }
+        }
         WholeCart wholeCart = new WholeCart();
-        wholeCart.setCarts(cartsOfThisAccount);
+        wholeCart.setCarts(result);
         wholeCart.setTotalAmount();
         wholeCart.setTotal();
         return wholeCart;
@@ -76,7 +84,7 @@ public class CartServiceImpl implements CartService {
 
     public OrdersVO checkout(List<Integer> cartItemId, String shoppingAddress, String paymentMethod){
         if(cartItemId == null || cartItemId.isEmpty()){
-            return null;
+            throw new RuntimeException("购物车商品列表为空");
         }
 
         Account currentUser = securityUtil.getCurrentUser();

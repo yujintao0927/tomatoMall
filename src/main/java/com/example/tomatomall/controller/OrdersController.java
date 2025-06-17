@@ -1,13 +1,16 @@
 package com.example.tomatomall.controller;
 
 
+import com.example.tomatomall.service.OrdersService;
 import com.example.tomatomall.utils.AlipayUtils;
+import com.example.tomatomall.vo.OrdersVO;
 import com.example.tomatomall.vo.PayResponse;
 import com.example.tomatomall.vo.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -15,12 +18,17 @@ public class OrdersController {
 
     @Autowired
     private AlipayUtils alipayUtils;
-//    private String ALIPAY_PUBLIC_KEY = alipayUtils.getPublicKey();
 
+    @Autowired
+    private OrdersService ordersService;
 
     @PostMapping("/{orderId}/pay")
-    public Response<PayResponse> pay(@PathVariable Integer orderId) {
-        return Response.buildSuccess(alipayUtils.pay(orderId));
+    public String pay(@PathVariable Integer orderId) {
+        PayResponse payResponse = alipayUtils.pay(orderId);
+        if (payResponse == null) {
+            return "订单已过期或状态不正确";
+        }
+        return payResponse.getPaymentForm();
     }
 
     @PostMapping("/notify")
@@ -36,6 +44,11 @@ public class OrdersController {
     @GetMapping("/returnUrl")
     public String returnUrl() {
         return "支付成功了";
+    }
+
+    @GetMapping("/pendingOrders")
+    public Response<List<OrdersVO>> getPendingOrder() {
+        return Response.buildSuccess(ordersService.getPENDINGOrder());
     }
 
 //    @PostMapping("/notify")

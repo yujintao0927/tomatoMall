@@ -65,4 +65,9 @@ public class ProductController {
         productService.addStockPile(stockpileVO);
         return Response.buildSuccess("创建库存成功");
     }
+
+    @GetMapping("/myProduct")
+    public Response<List<ProductVO>> getMyProduct() {
+        return Response.buildSuccess(productService.getMyProduct() );
+    }
 }

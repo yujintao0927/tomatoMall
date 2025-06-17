@@ -47,4 +47,7 @@ public class TomatoMallException extends RuntimeException {
     return new TomatoMallException("广告不存在", "400");
   }
 
+  public static TomatoMallException passwordNotMatch(){
+    return new TomatoMallException("密码错误", "400");
+  }
   }

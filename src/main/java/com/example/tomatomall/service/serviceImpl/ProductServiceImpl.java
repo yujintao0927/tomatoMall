@@ -1,12 +1,10 @@
 package com.example.tomatomall.service.serviceImpl;
 
-import com.example.tomatomall.Repository.ProductRepository;
-import com.example.tomatomall.Repository.StockpileRepository;
+import com.example.tomatomall.Repository.*;
 import com.example.tomatomall.exception.TomatoMallException;
-import com.example.tomatomall.po.Product;
-import com.example.tomatomall.po.Specifications;
-import com.example.tomatomall.po.Stockpile;
+import com.example.tomatomall.po.*;
 import com.example.tomatomall.service.ProductService;
+import com.example.tomatomall.utils.SecurityUtil;
 import com.example.tomatomall.vo.ProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
@@ -21,7 +19,19 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
+    private SecurityUtil securityUtil;
+
+    @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private OrdersRepository ordersRepository;
+
+    @Autowired
+    private CartsOrdersRelationRepository cartsOrdersRelationRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
 
     @Override
     public ProductVO createProduct(ProductVO productVO) {
@@ -178,6 +188,38 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findById(productID).orElseThrow(TomatoMallException::productNotFound);
         product.setStockpile(stockpileVO.toPO());
         productRepository.save(product);
+    }
+
+    @Override
+    public List<ProductVO> getMyProduct() {
+        Account account = securityUtil.getCurrentUser();
+        int userId = account.getId();
+
+        List<Orders> orders = ordersRepository.findByUserId(userId);
+
+        List<Integer> orderIds = new ArrayList<>() ;
+        for (Orders order : orders) {
+            if(!order.getStatus().equals("SUCCESS")) continue;
+            orderIds.add(order.getOrderId());
+        }
+
+        List<Cart> cartItems = new ArrayList<>() ;
+        for (Integer orderId : orderIds) {
+            CartsOrdersRelation relation = cartsOrdersRelationRepository.findByOrdersOrderId(orderId);
+            Cart cartItem = relation.getCartItem();
+            cartItems.add(cartItem);
+        }
+
+        List<ProductVO> productVOList = new ArrayList<>();
+
+        for (Cart cartItem : cartItems) {
+            Product product = cartItem.getProduct();
+            productVOList.add(product.toVO());
+        }
+
+        return productVOList;
+
+
     }
 
 }

@@ -10,5 +10,8 @@ import java.util.List;
 
 @Repository
 public interface CartsOrdersRelationRepository extends CrudRepository<CartsOrdersRelation, Integer> {
-    List<Cart> findCartsOrdersRelationByOrders(Orders orders);
+    boolean existsByCartItem(Cart cart);
+
+
+    CartsOrdersRelation findByOrdersOrderId(Integer orderId);
 }

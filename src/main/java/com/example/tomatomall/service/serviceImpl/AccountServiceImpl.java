@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -102,6 +104,20 @@ public class AccountServiceImpl implements AccountService {
         return authUtil.getToken(accountRepository.findByUserName(username));
     }
 
+    @Override
+    public void updatePassword(String oldPassword, String newPassword) {
+        Account account = securityUtil.getCurrentUser();
+        String userName = account.getUserName();
+        if(!checkLogin(userName, oldPassword)){
+            throw TomatoMallException.passwordNotMatch();
+        }
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        account.setPassword(encodedPassword);
+        accountRepository.save(account);
+
+
+    }
+
     private Boolean checkLogin(String username, String password){
         Account account = accountRepository.findByUserName(username);
         if (account == null) {
@@ -110,9 +126,5 @@ public class AccountServiceImpl implements AccountService {
         return passwordEncoder.matches(password, account.getPassword());
     }
 
-
-//    public Boolean ExistsByUsername(String name){
-//        return accountRepository.existsByUserName(name);
-//    }
 
 }

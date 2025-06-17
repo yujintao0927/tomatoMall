@@ -16,6 +16,7 @@ public class TomatoWebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/api/accounts/login")
+                .excludePathPatterns("/upload")
                 .order(1);
     }
 }

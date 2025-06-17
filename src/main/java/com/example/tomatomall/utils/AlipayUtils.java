@@ -61,11 +61,11 @@ public class AlipayUtils {
 
         long diff = currentTime - createTime;
 
-// 判断是否超过 30 分钟（30 * 60 * 1000 = 1,800,000 毫秒）
-        if (diff > 30 * 60 * 1000L) {
-            ordersRepository.deleteById(orderId);
-            return null;
-        }
+//// 判断是否超过 30 分钟（30 * 60 * 1000 = 1,800,000 毫秒）
+//        if (diff > 30 * 60 * 1000L) {
+//            ordersRepository.deleteById(orderId);
+//            return null;
+//        }
 
         AliPay aliPay = new AliPay();
         aliPay.setTraceNo(String.valueOf(orderId));
@@ -101,6 +101,7 @@ public class AlipayUtils {
         payResponse.setTotalAmount(orders.getTotalAmount());
         payResponse.setPaymentMethod("ALIPAY");
         payResponse.setPaymentForm(form);
+        System.out.println(payResponse.getOrderId());
         return payResponse;
     }
 
