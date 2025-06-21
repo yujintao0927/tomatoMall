@@ -17,7 +17,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +31,7 @@ import static com.alipay.api.AlipayConstants.FORMAT;
 public class AlipayUtils {
     private String appId;
     private String privateKey;
-    private String publicKey;
+    private String AlipayPublicKey;
     private String charset;
     private String signType;
     private String notifyUrl;
@@ -73,7 +72,7 @@ public class AlipayUtils {
 
         // 1. 创建Client，通用SDK提供的Client，负责调用支付宝的API
         AlipayClient alipayClient = new DefaultAlipayClient(serverUrl, appId,
-                privateKey, FORMAT, charset, publicKey, signType);
+                privateKey, FORMAT, charset, AlipayPublicKey, signType);
         // 2. 创建 Request并设置Request参数
         AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();  // 发送请求的 Request类
         request.setNotifyUrl(notifyUrl);
@@ -117,7 +116,7 @@ public class AlipayUtils {
             }
             String sign = params.get("sign");
             String content = AlipaySignature.getSignCheckContentV1(params);
-            boolean checkSignature = AlipaySignature.rsa256CheckContent(content, sign, publicKey, "UTF-8"); // 验证签名
+            boolean checkSignature = AlipaySignature.rsa256CheckContent(content, sign, AlipayPublicKey, "UTF-8"); // 验证签名
             // 支付宝验签
             if (checkSignature) {
                 // 验签通过 可做自己需要的操作
