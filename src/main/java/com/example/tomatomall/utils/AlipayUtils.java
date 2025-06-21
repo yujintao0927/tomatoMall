@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import static com.alipay.api.AlipayConstants.FORMAT;
+import static com.alipay.api.AlipayConstants.FORMAT_JSON;
 
 @Configuration
 @ConfigurationProperties(prefix = "alipay")
@@ -69,18 +70,21 @@ public class AlipayUtils {
         AliPay aliPay = new AliPay();
         aliPay.setTraceNo(String.valueOf(orderId));
         aliPay.setTotalAmount(orders.getTotalAmount().doubleValue());
+        aliPay.setSubject("番茄商城订单支付-" + orderId);
+
 
         // 1. 创建Client，通用SDK提供的Client，负责调用支付宝的API
         AlipayClient alipayClient = new DefaultAlipayClient(serverUrl, appId,
-                privateKey, FORMAT, charset, AlipayPublicKey, signType);
+                privateKey, FORMAT_JSON, charset, AlipayPublicKey, signType);
         // 2. 创建 Request并设置Request参数
         AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();  // 发送请求的 Request类
         request.setNotifyUrl(notifyUrl);
         request.setReturnUrl(returnUrl);
         JSONObject bizContent = new JSONObject();
         bizContent.put("out_trade_no", aliPay.getTraceNo());  // 我们自己生成的订单编号
-        bizContent.put("total_amount", aliPay.getTotalAmount()); // 订单的总金额
+        bizContent.put("total_amount", String.valueOf(aliPay.getTotalAmount())); // 订单的总金额
         bizContent.put("subject", aliPay.getSubject());   // 支付的名称
+        bizContent.put("body", null);
         bizContent.put("product_code", "FAST_INSTANT_TRADE_PAY");  // 固定配置
         request.setBizContent(bizContent.toString());
         // 执行请求，拿到响应的结果，返回给浏览器
