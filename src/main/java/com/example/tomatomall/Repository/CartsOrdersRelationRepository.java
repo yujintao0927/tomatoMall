@@ -13,5 +13,5 @@ public interface CartsOrdersRelationRepository extends CrudRepository<CartsOrder
     boolean existsByCartItem(Cart cart);
 
 
-    CartsOrdersRelation findByOrdersOrderId(Integer orderId);
+    List<CartsOrdersRelation> findByOrdersOrderId(Integer orderId);
 }

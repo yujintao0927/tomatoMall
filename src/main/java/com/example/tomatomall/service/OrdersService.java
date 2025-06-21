@@ -7,4 +7,6 @@ import java.util.List;
 public interface OrdersService {
 
     public List<OrdersVO> getPENDINGOrder();
+
+    void updateOrderSuccess(int orderId);
 }

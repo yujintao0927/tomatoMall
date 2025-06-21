@@ -9,6 +9,7 @@ import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.example.tomatomall.Repository.OrdersRepository;
 import com.example.tomatomall.exception.TomatoMallException;
 import com.example.tomatomall.po.Orders;
+import com.example.tomatomall.service.OrdersService;
 import com.example.tomatomall.vo.PayResponse;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,6 +43,8 @@ public class AlipayUtils {
     @Autowired
     private OrdersRepository ordersRepository;
 
+    @Autowired
+    private OrdersService ordersService;
 
 
     public PayResponse pay(Integer orderId){
@@ -79,7 +82,8 @@ public class AlipayUtils {
         // 2. 创建 Request并设置Request参数
         AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();  // 发送请求的 Request类
         request.setNotifyUrl(notifyUrl);
-        request.setReturnUrl(returnUrl);
+        String returnUrlWithIdAndAmount = returnUrl + "?" + "orderId=" + aliPay.getTraceNo() + "&" + "amount=" + aliPay.getTotalAmount() ;
+        request.setReturnUrl(returnUrlWithIdAndAmount);
         JSONObject bizContent = new JSONObject();
         bizContent.put("out_trade_no", aliPay.getTraceNo());  // 我们自己生成的订单编号
         bizContent.put("total_amount", String.valueOf(aliPay.getTotalAmount())); // 订单的总金额
@@ -132,6 +136,9 @@ public class AlipayUtils {
                 System.out.println("买家在支付宝唯一id: " + params.get("buyer_id"));
                 System.out.println("买家付款时间: " + params.get("gmt_payment"));
                 System.out.println("买家付款金额: " + params.get("buyer_pay_amount"));
+
+                //设置订单为SUCCESS
+                ordersService.updateOrderSuccess(Integer.parseInt(params.get("out_trade_no")));
             }
         }
         return "success";

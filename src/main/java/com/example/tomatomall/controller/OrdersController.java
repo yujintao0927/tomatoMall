@@ -43,7 +43,7 @@ public class OrdersController {
 
     @GetMapping("/returnUrl")
     public String returnUrl() {
-        return "支付成功了";
+        return "支付成功";
     }
 
     @GetMapping("/pendingOrders")

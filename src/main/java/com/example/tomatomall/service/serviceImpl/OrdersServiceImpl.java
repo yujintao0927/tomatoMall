@@ -37,4 +37,14 @@ public class OrdersServiceImpl implements OrdersService {
         }
         return pendingOrders ;
     }
+
+    @Override
+    public void updateOrderSuccess(int orderId) {
+        Orders order = ordersRepository.getOrdersByOrderId(orderId);
+        order.setStatus("SUCCESS");
+
+        ordersRepository.save(order);
+    }
+
+
 }

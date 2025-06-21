@@ -17,6 +17,9 @@ public class TomatoWebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/api/accounts/login")
                 .excludePathPatterns("/upload")
+                .excludePathPatterns("/api/orders/notify")
+                .excludePathPatterns("/api/orders/returnUrl")
+                .excludePathPatterns("/favicon.ico")
                 .order(1);
     }
 }

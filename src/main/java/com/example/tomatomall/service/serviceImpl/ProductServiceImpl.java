@@ -205,16 +205,22 @@ public class ProductServiceImpl implements ProductService {
 
         List<Cart> cartItems = new ArrayList<>() ;
         for (Integer orderId : orderIds) {
-            CartsOrdersRelation relation = cartsOrdersRelationRepository.findByOrdersOrderId(orderId);
-            Cart cartItem = relation.getCartItem();
-            cartItems.add(cartItem);
+            List<CartsOrdersRelation> relations = cartsOrdersRelationRepository.findByOrdersOrderId(orderId);
+            for (CartsOrdersRelation relation : relations) {
+                Cart cartItem = relation.getCartItem();
+                cartItems.add(cartItem);
+            }
         }
 
         List<ProductVO> productVOList = new ArrayList<>();
+        List<Integer> idList = new ArrayList<>();
 
         for (Cart cartItem : cartItems) {
             Product product = cartItem.getProduct();
-            productVOList.add(product.toVO());
+            if(!idList.contains(product.getId())) {
+                productVOList.add(product.toVO());
+                idList.add(product.getId());
+            }
         }
 
         return productVOList;
